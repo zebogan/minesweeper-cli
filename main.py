@@ -49,18 +49,20 @@ while True:
     if key != -1:
         stdscr.clear()
         stdscr.addstr(str(mines) + "\n\n" + str(grid))
-        if key == curses.KEY_UP:
+        if key == curses.KEY_UP or key == 119:
             stdscr.addstr("up")
-        elif key == curses.KEY_DOWN:
+        elif key == curses.KEY_DOWN or key == 115:
             stdscr.addstr("down")
-        elif key == curses.KEY_LEFT:
+        elif key == curses.KEY_LEFT or key == 97:
             stdscr.addstr("left")
-        elif key == curses.KEY_RIGHT:
+        elif key == curses.KEY_RIGHT or key == 100:
             stdscr.addstr("right")
         elif key == 32:
             stdscr.addstr("sweep")
         elif key == 102:
             stdscr.addstr("flag")
+        else:
+            stdscr.addstr(str(key))
 
     stdscr.refresh()
 
