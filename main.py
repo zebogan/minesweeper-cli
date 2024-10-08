@@ -51,25 +51,24 @@ while going:
                 for iy, ix in numpy.ndindex(grid.shape):
                     if zeroGroups[iy, ix] == currentZeroGroup:
                         revealed[iy, ix] = 1
+                        revealed = minesweeper.reveal_around(revealed, ix, iy)
         elif key == 102: # flag (f)
             if revealed[cursorPos[1], cursorPos[0]] == 0:
                 flag[cursorPos[1], cursorPos[0]] = not flag[cursorPos[1], cursorPos[0]]
-        else:
-            stdscr.addstr(str(key))
         if loss:
             going = False
 
     if not loss:
         for y, x in numpy.ndindex(revealed.shape):
             if revealed[y, x] == 0:
-                stdscr.addstr(y, x*2, "?")
+                stdscr.addstr(y, x*2, "#")
             else:
                 if mines[y, x] == 1:
                     loss = True
                 else:
                     stdscr.addstr(y, x*2, str(grid[y, x]))
             if flag[y, x] == 1:
-                stdscr.addstr(y, x*2, "#")
+                stdscr.addstr(y, x*2, "󰈻")
         stdscr.move(cursorPos[1], cursorPos[0] * 2)
     else:
         for y, x in numpy.ndindex(mines.shape):

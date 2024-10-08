@@ -10,6 +10,11 @@ def init():
         random_index2 = numpy.random.randint(0, mines.shape[1])
         if mines[random_index1, random_index2] != 1:
             mines[random_index1, random_index2] = 1
+        if mines[random_index1, random_index2] == 1:
+            while mines[random_index1, random_index2] == 1:
+                random_index1 = numpy.random.randint(0, mines.shape[0])
+                random_index2 = numpy.random.randint(0, mines.shape[1])
+            mines[random_index1, random_index2] = 1
 
     grid = numpy.zeros((mines.shape[0], mines.shape[1]), dtype=int)
     for iy, ix in numpy.ndindex(grid.shape):
@@ -39,6 +44,30 @@ def init():
             grid[iy, ix] = -1
     
     return mines, grid
+
+def reveal_around(revealed, x, y):
+    tmpRev = numpy.copy(revealed)
+    
+    tmpRev[y, x] = 1
+    if x != 0:
+        tmpRev[y, x - 1] = 1
+    if x != GAME_SIZE[1] - 1:
+        tmpRev[y, x + 1] = 1
+    if y != 0:
+        tmpRev[y - 1, x] = 1
+    if y != GAME_SIZE[0] - 1:
+        tmpRev[y + 1, x] = 1
+    if x != 0 and y != 0:
+        tmpRev[y - 1, x - 1] = 1
+    if x != GAME_SIZE[1] - 1 and y != 0:
+        tmpRev[y - 1, x + 1] = 1
+    if x != GAME_SIZE[1] - 1 and y != GAME_SIZE[0] - 1:
+        tmpRev[y + 1, x + 1] = 1
+    if x != 0 and y != GAME_SIZE[0] - 1:
+        tmpRev[y + 1, x - 1] = 1
+    
+    return tmpRev
+
 
 def flood_fill(arr):
     rows, cols = arr.shape
